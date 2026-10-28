@@ -16,6 +16,7 @@ CI runs in GitHub Actions.
 - **No `profile` in the provider.** A profile exists only on one machine and breaks CI and remote runs. Locally use `export AWS_PROFILE=atnt`.
 - **`allowed_account_ids` pinned.** Stops a run that has credentials for the wrong AWS account.
 - **HCP provider removed.** It was only used for HCP Vault Secrets; the `HCP_CLIENT_*` service principal is not needed now. The old workspace `HCPVaultSecretsLab` and its key should be deleted/revoked in HCP.
+- **CI gets AWS credentials via GitHub OIDC**, assuming role `terraform-all-ssm-lab` (no static keys). The workspace runs in Local mode, so the runner executes plan/apply and needs the credentials. The role's trust policy is limited to `repo:atnguyentr/terraform-all:*`; its permissions are limited to SSM parameters under `/terra-cloud-lab/*`.
 - **CI authenticates to HCP Terraform with a Team API token** (`TF_API_TOKEN` secret), not `terraform login`.
 
 ## Local use
